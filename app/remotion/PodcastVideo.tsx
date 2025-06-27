@@ -26,18 +26,18 @@ export function PodcastVideo({
 
   useLoadFonts(styles.fontFamily, fontData);
 
+  // Ensure all required props are present
   if (!words?.length || !audio || !audioDuration) {
     return null;
   }
 
-  const durationInFrames = audioDuration
-    ? Math.ceil(audioDuration * fps)
-    : 60 * fps;
+  // Dynamically set video duration based on audio length
+  const durationInFrames = Math.ceil(audioDuration * fps);
 
   return (
     <div style={{ flex: 1, backgroundColor: 'white' }}>
       {image && <BackgroundImage src={image} />}
-      <Sequence from={0} durationInFrames={Infinity}>
+      <Sequence from={0} durationInFrames={durationInFrames}>
         <Heading
           title={styles.title}
           subtitle={styles.subtitle}
@@ -51,18 +51,16 @@ export function PodcastVideo({
           lineHeight={styles.lineHeight}
           words={flatten(words)}
           startFrame={0}
-          endFrame={0 + durationInFrames}
+          endFrame={durationInFrames}
           animate
         />
       </Sequence>
       <Sequence from={0} durationInFrames={durationInFrames}>
-        {audio && (
-          <TextAudio
-            audio={audio}
-            accentColor={styles.accentColor}
-            audioVisualization={styles.audioVisualization}
-          />
-        )}
+        <TextAudio
+          audio={audio}
+          accentColor={styles.accentColor}
+          audioVisualization={styles.audioVisualization}
+        />
       </Sequence>
     </div>
   );

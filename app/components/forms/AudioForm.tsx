@@ -167,7 +167,7 @@ export default function AudioForm({
                     const { durationInSeconds } = await getAudioData(fileUrl);
                     URL.revokeObjectURL(fileUrl);
                     return (
-                      durationInSeconds < 60 ||
+                      durationInSeconds < 6000 ||
                       'Audio length must be 1 minute or less'
                     );
                   },
